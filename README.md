@@ -6,7 +6,8 @@ Create a simple Ads management API that shows ads and related tags/categories. I
 - Each Ad is created under one category and has many related tags
 - One category can have many ads and each Ad is related to one category.
 - Schedule a daily email at 08:00 PM that will be sent to advertisers who have ads the next day as a remainder.
-### Endpoints should contains: -Tags (CRUD)
+### Endpoints should contain: 
+- Tags (CRUD)
 - Categories (CRUD)
 - Ad filters (by tag, by category) 
 - Showing Advertiser Ads
