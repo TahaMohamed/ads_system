@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\{CategoryController, TagController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,5 +19,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResources([
-    'categories' => \App\Http\Controllers\Api\CategoryController::class,
+    'categories' => CategoryController::class,
+    'tags' => TagController::class,
     ]);

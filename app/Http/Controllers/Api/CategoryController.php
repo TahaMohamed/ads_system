@@ -7,7 +7,6 @@ use App\Http\Requests\Api\CategoryRequest;
 use App\Http\Resources\Api\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Types\This;
 
 class CategoryController extends Controller
 {
