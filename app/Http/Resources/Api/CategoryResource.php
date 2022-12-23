@@ -19,7 +19,7 @@ class CategoryResource extends JsonResource
             'name' => $this->name,
             'ads_count' => $this->whenCounted('ads'),
             'ads' => AdResource::collection($this->whenLoaded('ads')),
-            'created_at' => $this->created_at->format('Y-m-d')
+            'created_at' => $this->whenNotNull($this->created_at?->format('Y-m-d'))
         ];
     }
 }

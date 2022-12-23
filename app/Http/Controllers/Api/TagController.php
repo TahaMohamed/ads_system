@@ -41,7 +41,7 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        $tag = Tag::with('ads:id,title')->findOrFail($id);
+        $tag = Tag::with('ads')->findOrFail($id);
         return $this->successResponse(TagResource::make($tag));
     }
 

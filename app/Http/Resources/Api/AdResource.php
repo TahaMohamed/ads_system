@@ -16,8 +16,15 @@ class AdResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'ads_count' => $this->whenCounted('ads'),
+            'title' => $this->title,
+            'description' => $this->description,
+            'start_at' => $this->start_at->format('Y-m-d'),
+            'is_paid' => (bool)$this->is_paid,
+            'tags_count' => $this->whenCounted('tags'),
+            'tags' => TagResource::collection($this->whenLoaded('tags')),
+            'category' => CategoryResource::make($this->whenLoaded('category')),
+            'advertiser' => AdvertiserResource::make($this->whenLoaded('advertiser')),
+            'created_at' => $this->whenNotNull($this->created_at?->format('Y-m-d'))
         ];
     }
 }

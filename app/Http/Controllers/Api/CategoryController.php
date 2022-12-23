@@ -41,7 +41,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::with('ads:id,title')->findOrFail($id);
+        $category = Category::with('ads')->findOrFail($id);
         return $this->successResponse(CategoryResource::make($category));
     }
 

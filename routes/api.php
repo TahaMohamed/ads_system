@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\{CategoryController, TagController};
+use App\Http\Controllers\Api\{CategoryController, TagController, AdController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,4 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResources([
     'categories' => CategoryController::class,
     'tags' => TagController::class,
+    'ads' => AdController::class,
     ]);
+
+Route::apiResource('advertiser.ads',AdController::class)->only('index','show')->shallow();
