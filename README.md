@@ -23,5 +23,5 @@ Create a simple Ads management API that shows ads and related tags/categories. I
 1. `php artisan migrate --step --seed`.
 1. `php artisan serve`.
 1. Open new terminal tap `php artisan schedule:work`.
-1. Use this postman collection for run api services
-   [Postman Collection](https://documenter.getpostman.com/view/6784299/2s8Z6vXteB)
+1. Use [Postman Collection](https://documenter.getpostman.com/view/6784299/2s8Z6vXteB) for run api services
+   
