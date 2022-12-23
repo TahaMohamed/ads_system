@@ -2,11 +2,20 @@
 
 namespace App\Exceptions;
 
+use App\Traits\ApiResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Exceptions\PostTooLargeException;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ApiResponse;
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -47,4 +56,34 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $this->shouldReturnJson($request, $exception)
+            ? $this->apiResponse(status: false, message: $exception->getMessage(), code: 401)
+            : redirect()->guest($exception->redirectTo() ?? route('login'));
+    }
+
+    public function render($request, $exception)
+    {
+        if ($request->expectsJson()) {
+            return match (true) {
+                $exception instanceof PostTooLargeException =>  $this->apiResponse(status: false, message: $exception->getMessage(), code: 400),
+                $exception instanceof AuthenticationException =>  $this->apiResponse(status: false, message: $exception->getMessage(), code: 401),
+                $exception instanceof ThrottleRequestsException =>  $this->apiResponse(status: false, message: $exception->getMessage(), code: 429),
+                $exception instanceof ModelNotFoundException ||
+                $exception instanceof NotFoundHttpException  =>  $this->apiResponse(status: false, message: $exception->getMessage(), code: 404),
+                $exception instanceof MethodNotAllowedHttpException  =>  $this->apiResponse(status: false, message: $exception->getMessage(), code: 405),
+                $exception instanceof ValidationException =>  $this->invalidJson($request, $exception),
+                default => $this->apiResponse(status: false, message: $exception->getMessage() . " in " . $exception->getFile() . " at line " . $exception->getLine(), code: 500)
+            };
+        }
+        return parent::render($request, $exception);
+    }
+
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return $this->errorResponse(data: $exception->validator?->errors()?->toArray(), message: $exception->validator?->messages()->first());
+    }
+
 }
