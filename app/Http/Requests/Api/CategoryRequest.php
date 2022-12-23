@@ -14,7 +14,7 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:50|unique:categories,name,' . $this->route()->originalParameter('category')
+            'name' => 'required|string|max:50|unique:categories,name,' . $this->category?->id
         ];
     }
 }

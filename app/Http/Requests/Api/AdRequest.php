@@ -21,7 +21,7 @@ class AdRequest extends FormRequest
             'is_paid' => 'required|boolean',
             'tags' => 'required|array',
             'tags.*' => 'required|exists:tags,id',
-            'start_at' => 'required|date' . $this->route('ad') ? '|after:today' : null,
+            'start_at' => 'required|date' . ($this->ad?->start_at?->gt(today()) || !$this->ad ? '|after:today' : null),
         ];
     }
 }

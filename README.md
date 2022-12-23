@@ -20,6 +20,7 @@ Create a simple Ads management API that shows ads and related tags/categories. I
 1. Rename or copy `.env.example` file to `.env`.
 1. `php artisan key:generate`.
 1. Set database credentials in `.env` file.
+1. Don't forget mail setting in `.env` file.
 1. `php artisan migrate --step --seed`.
 1. `php artisan serve`.
 1. Open new terminal tap `php artisan schedule:work`.
